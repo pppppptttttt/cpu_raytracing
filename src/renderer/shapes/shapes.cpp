@@ -23,7 +23,7 @@ bool sphere::Hits( const ray& R, hit_info& Info ) const
 
 bool triangle::Hits( const ray& R, hit_info& Info ) const
 {
-    vec3 N = cross(p0 - p1, p0 - p2);  // plane normal
+    vec3 N = mth::unit_vector(cross(p0 - p1, p0 - p2));  // plane normal
     double D = -dot(N, p0);  // D coeff from Ax + By + Cz + D = 0 plane equation
     if (fabs(dot(N, R.Dir)) <= THR)
         return false;
@@ -44,11 +44,10 @@ bool triangle::Hits( const ray& R, hit_info& Info ) const
         dot(N, cross(edge1, c1)) > THR &&
         dot(N, cross(edge2, c2)) > THR)
     {
-        Info.n = N;
+        Info.set_face_normal(R, N);
         Info.mtl = Mtl;
         Info.p = p;
         Info.t = t;
-        Info.set_face_normal(R, N);
         return true;
     }
     return false;

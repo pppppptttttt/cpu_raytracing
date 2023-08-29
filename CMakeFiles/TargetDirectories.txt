@@ -1,3 +1,0 @@
-/home/pavel/Desktop/dev/funnycg/rt/CMakeFiles/CPURT.dir
-/home/pavel/Desktop/dev/funnycg/rt/CMakeFiles/edit_cache.dir
-/home/pavel/Desktop/dev/funnycg/rt/CMakeFiles/rebuild_cache.dir

@@ -1,5 +1,11 @@
 # cpu_raytracing
 
+## Features
+- Antialiasing
+- Multithreading
+- Loading models from .obj file
+- Rendering image to .ppm and/or displaying it on screen
+
 ## Dependencies
 
 Guess you will need installed sdl2 and X11 libs; or just edit some code about core and render .ppm images(set core type to "Default"):

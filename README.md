@@ -8,7 +8,7 @@
 
 ## Dependencies
 
-Guess you will need installed sdl2 and X11 libs; or just edit some code about core and render .ppm images(set core type to "Default"):
+Guess you will need to install sdl2 and X11 libs; or just edit some code about core and render .ppm images(set core type to "Default"):
 
 sudo apt-get install libsdl2-dev
 

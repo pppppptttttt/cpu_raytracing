@@ -85,7 +85,7 @@ std::shared_ptr<image> renderer::RenderFrame()
     std::cout << "Rendering frame..." << std::endl;
     auto start = std::chrono::high_resolution_clock::now();
 
-    const uint32_t cores_n = std::thread::hardware_concurrency();
+    const uint32_t cores_n = std::thread::hardware_concurrency() - 4;
     //cores_n = 1;
     std::vector<std::thread> shaders(cores_n);
     std::mutex cout_lock;
@@ -108,14 +108,6 @@ std::shared_ptr<image> renderer::RenderFrame()
                         Frame->PutPixel(x, y, fixedc(c));
                         RenderCore->PutPixel(x, y, fixedc(c));
                         p.fetch_add(1, std::memory_order_relaxed);
-
-                        // std::lock_guard<std::mutex> lock(cout_lock);
-                        // std::cout << "[";
-                        // for (uint32_t _ = 0; _ < progress_bar_w; _++)
-                        //     if (_ < p * progress_bar_w) std::cout << "#";
-                        //     else std::cout << " ";
-                        // std::cout << "]" << p * 100.0 << "%\r";
-                        // std::cout.flush();
                     }
             });
 

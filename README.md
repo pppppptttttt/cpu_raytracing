@@ -16,6 +16,7 @@ Guess you will need to install sdl2 and X11 libs; or just edit some code about c
 ![frame5](https://github.com/pppppptttttt/cpu_raytracing/assets/140364764/ada468b1-95b3-4d1b-8059-a0b0f17235de)
 ![frame7](https://github.com/pppppptttttt/cpu_raytracing/assets/140364764/f6e6779c-ea69-4df3-ac4a-aa08a8641948)
 ![frame9](https://github.com/pppppptttttt/cpu_raytracing/assets/140364764/86c4446e-0d2c-4c7d-9320-245c9cdcfa26)
+![tower](https://github.com/pppppptttttt/cpu_raytracing/assets/140364764/154e729f-83fd-43a0-8beb-072170beed7f)
 ![teapot](https://github.com/pppppptttttt/cpu_raytracing/assets/140364764/20bb9d7e-51a8-4133-8be9-8059594b071d)
 
 ## TODO

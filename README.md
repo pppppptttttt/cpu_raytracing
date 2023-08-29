@@ -20,5 +20,6 @@ Guess you will need to install sdl2 and X11 libs; or just edit some code about c
 
 ## TODO
  - Change AA to something faster(like adaptive supersampling)
- - Physically based lights(objects that emits light on scene)
+ - Textures from images and solid textures(noise etc.)
+ - Physically based lights(objects that emits light on scene
  - Fix models ligthing, last frame looks strange

@@ -2,7 +2,6 @@
 #include <cstdio>
 #include <chrono>
 #include <thread>
-#include <mutex>
 #include <atomic>
 
 void renderer::Init( core_type T )
@@ -88,18 +87,21 @@ std::shared_ptr<image> renderer::RenderFrame()
     std::cout << "Rendering frame..." << std::endl;
     auto start = std::chrono::high_resolution_clock::now();
 
+#define MT
+#ifdef MT
     const uint32_t cores_n = std::thread::hardware_concurrency()-4;
-    //cores_n = 1;
+#else
+    const uint32_t cores_n = 1;
+#endif
     std::vector<std::thread> shaders(cores_n);
-    std::mutex cout_lock;
     std::atomic<uint32_t> p(0);
 
     for (uint32_t i = 0; i < cores_n; i++)
         shaders[i] = std::thread(
             [&, i]()
             {
-                for (uint32_t y = i; y <= HEIGHT; y += cores_n)
-                    for (uint32_t x = 0; x <= WIDTH; x++)
+                for (uint32_t y = i; y < HEIGHT; y += cores_n)
+                    for (uint32_t x = 0; x < WIDTH; x++)
                     {
                         color3 c(0);
                         for (uint32_t _ = 0; _ < SamplesPerPixel; _++)

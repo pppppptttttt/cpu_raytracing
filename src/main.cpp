@@ -3,7 +3,7 @@
 int main()
 {
     renderer Rnd(400, 400);
-    Rnd.Init(core_type::X11);
+    Rnd.Init(core_type::SDL);
     //Rnd.Cam.Set({0}, {0, 0, 0}, 90.0);
     Rnd.SamplesPerPixel = 3;
     Rnd.MaxDepth = 50;

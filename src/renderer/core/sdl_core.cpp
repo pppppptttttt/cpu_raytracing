@@ -6,6 +6,9 @@ void sdl_core::Init( uint32_t Width, uint32_t Height )
     SDL_CreateWindowAndRenderer(Width, Height, 0, &Window, &Renderer);
     SDL_SetRenderDrawColor(Renderer, 0, 0, 0, 0);
     SDL_RenderClear(Renderer);
+    Buffer.resize(Height);
+    for (auto& v : Buffer)
+        v.resize(Width);
 }
 
 void sdl_core::Close()
@@ -17,17 +20,47 @@ void sdl_core::Close()
 
 void sdl_core::PutPixel( uint32_t x, uint32_t y, const mth::vec3<u_char>& color )
 {
-    SDL_SetRenderDrawColor(Renderer, color.x, color.y, color.z, 1);
-    SDL_RenderDrawPoint(Renderer, x, y);
-    // SDL_RenderPresent(Renderer);
+    if (y >= 0 && y < Buffer.size() && x >= 0 && x < Buffer[0].size())
+        Buffer[y][x] = color;
+}
+
+void sdl_core::DrawBuffer()
+{
+    for (uint32_t y = 0; y < Buffer.size(); y++)
+        for (uint32_t x = 0; x < Buffer[y].size(); x++)
+        {
+            SDL_SetRenderDrawColor(Renderer, Buffer[y][x][0], Buffer[y][x][1], Buffer[y][x][2], 1);
+            SDL_RenderDrawPoint(Renderer, x, y);
+        }
 }
 
 void sdl_core::Render()
 {
+    DrawBuffer();
     SDL_RenderPresent(Renderer);
     SDL_SetRenderDrawColor(Renderer, 0, 0, 0, 0);
-    SDL_Event e;
+}
+
+void sdl_core::MainLoop()
+{
+    Render();
+    SDL_Event ev;
     while (true)
-        if (SDL_PollEvent(&e) && e.type == SDL_QUIT)
+    {
+        SDL_PollEvent(&ev);
+        switch (ev.type)
+        {
+        case SDL_QUIT:
+            return;
+        case SDL_KEYDOWN:
+            switch (ev.key.keysym.sym)
+            {
+            case SDLK_ESCAPE:
+                return;
+            }
             break;
+        default:
+            break;
+        }
+    }
 }

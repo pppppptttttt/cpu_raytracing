@@ -18,5 +18,5 @@ bool metal::Scatter( const ray& R, const hit_info& Info,
     Scattered = ray(Info.p, reflected + Fuzz * mth::random_unit_vector<double>());
     Attenuation = Albedo;
     //return true;
-    return (dot(reflected, Info.n) > 0.0);
+    return (dot(Scattered.Dir, Info.n) > 0.0);
 }

@@ -2,12 +2,6 @@
 
 int main()
 {
-    LoggerConfig& cfg = LOG::LoggerConfigInstance();
-    cfg.OutputToConsole = true;
-    cfg.OutputToFile = true;
-    cfg.FilePath = "log.txt";
-    cfg.Sev = Severity::INFO;
-
     renderer Rnd(400, 400);
     Rnd.Init(core_type::X11);
     //Rnd.Cam.Set({0}, {0, 0, 0}, 90.0);

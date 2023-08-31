@@ -58,7 +58,7 @@ model::model( const std::string& fn, material* mtl ) : Mtl(mtl)
     FILE* f = fopen(fn.c_str(), "r");
     if (f == nullptr)
     {
-        std::cout << "Couldn't load \'" << fn << "\' model" << std::endl;
+        LOG(Severity::ERROR) << "Can't open " << fn << " file";
         return;
     }
 
@@ -124,6 +124,7 @@ model::model( const std::string& fn, material* mtl ) : Mtl(mtl)
     }
     for (uint32_t i = 0; i < ni; i += 3)
         Triangles.push_back(std::make_shared<triangle>(Vertices[Indices[i]], Vertices[Indices[i + 1]], Vertices[Indices[i + 2]], Mtl));
+    LOG(Severity::DEBUG) << "Loaded " << Triangles.size() << " triangles for " << fn << " model to scene";
     fclose(f);
 }
 

@@ -22,16 +22,19 @@ void renderer::Init( core_type T )
         break;
     }
     RenderCore->Init(WIDTH, HEIGHT);
+    LOG(Severity::INFO) << "Render initialized";
 }
 
 renderer::~renderer()
 {
+    LOG(Severity::INFO) << "Render closed";
     RenderCore->Close();
 }
 
 renderer& renderer::AddShp( std::shared_ptr<shape> Shp )
 {
     Scene.push_back(Shp);
+    LOG(Severity::DEBUG) << "Shape #" << Scene.size() << " added to scene";
     return *this;
 }
 
@@ -127,6 +130,9 @@ std::shared_ptr<image> renderer::RenderFrame()
     auto finish = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double, std::milli> elapsed = finish - start;
     std::cout << std::endl << "Done" << std::endl << "Elapsed time: " << elapsed.count() / 1000.0  << "s" << std::endl;
+
+    LOG(Severity::INFO) << "Rendered frame with " << WIDTH * HEIGHT << " pixels";
+    LOG(Severity::INFO) << "Took " << elapsed.count() << " ms";
     return Frame;
 }
 
@@ -140,7 +146,7 @@ void image::SavePPM( const std::string& fn ) const
     FILE* f = fopen(fn.c_str(), "wb");
     if (!f)
     {
-        std::cout << "lol...\n";
+        LOG(Severity::ERROR) << "Can't open " << fn << " image file";
         return;
     }
     fprintf(f, "P6\n%d %d\n255\n", W, H);

@@ -85,7 +85,7 @@ std::shared_ptr<image> renderer::RenderFrame()
     std::cout << "Rendering frame..." << std::endl;
     auto start = std::chrono::high_resolution_clock::now();
 
-    const uint32_t cores_n = std::thread::hardware_concurrency() - 4;
+    const uint32_t cores_n = std::thread::hardware_concurrency()-4;
     //cores_n = 1;
     std::vector<std::thread> shaders(cores_n);
     std::mutex cout_lock;

@@ -1,6 +1,6 @@
 #pragma once
 #include <algorithm>
-#include "../../mth/mth.h"
+#include "../../def.h"
 #include "../shapes/shapes.h"
 
 struct hit_info;

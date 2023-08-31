@@ -1,5 +1,5 @@
 #pragma once
-#include "../../mth/mth.h"
+#include "../../def.h"
 
 class core
 {

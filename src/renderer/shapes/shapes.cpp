@@ -90,7 +90,7 @@ model::model( const std::string& fn, material* mtl ) : Mtl(mtl)
         {
             double x, y, z;
             sscanf(Buf + 2, "%lf%lf%lf", &x, &y, &z);
-            Vertices[nv++] = vec3(x/5, y/5, z/5);
+            Vertices[nv++] = vec3(x, y, z);
         }
         else if (Buf[0] == 'f' && Buf[1] == ' ')
         {

@@ -5,7 +5,7 @@
 
 enum class Severity
 {
-    DEBUG=0, INFO=1, WARNING=2, ERROR=3
+    DEBUG=0, INFO=1, WARNING=2, ERROR=3, DEFAULT=4
 };
 
 struct LoggerConfig
@@ -20,7 +20,7 @@ struct LoggerConfig
 class LOG
 {
 public:
-    LOG( Severity sev ) : msg_sev(sev) {}
+    LOG( Severity sev = Severity::DEFAULT ) : msg_sev(sev) {}
    ~LOG()
     {
         log(oss.str());
@@ -50,8 +50,11 @@ private:
         case Severity::WARNING:
             Header = "[WARNING]";
             break;
-        default:
+        case Severity::ERROR:
             Header = "[ERROR]";
+            break;
+        default:
+            Header = "";
             break;
         }
 
@@ -59,11 +62,18 @@ private:
             std::clog << Header << msg << std::endl;
         if (LoggerConfigInstance().OutputToFile)
         {
-            std::ofstream f(LoggerConfigInstance().FilePath, std::ios::trunc);
+            std::ofstream f;
+            static bool first_entrance = true;
+            if (first_entrance)
+            {
+                first_entrance = false;
+                f.open(LoggerConfigInstance().FilePath, std::ios::trunc);
+            }
+            else
+                f.open(LoggerConfigInstance().FilePath, std::ios::app);
             if (f)
                 f << Header << msg << std::endl;
         }
-        oss.clear();
     }
 
     std::ostringstream oss;

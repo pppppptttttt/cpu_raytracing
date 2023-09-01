@@ -10,7 +10,7 @@ struct hit_info
     point3 p;
     double t;
     bool front_face;
-    material* mtl;
+    std::shared_ptr<material> mtl;
 
     inline void set_face_normal( const ray& R, const vec3& N )
     {
@@ -29,30 +29,30 @@ public:
 class sphere : public shape
 {
 public:
-    sphere( const point3& c, double r, material* mtl ) : C(c), Radius(r), Mtl(mtl) {}
+    sphere( const point3& c, double r, std::shared_ptr<material> mtl ) : C(c), Radius(r), Mtl(mtl) {}
     bool Hits( const ray& R, hit_info& Info ) const override;
 private:
     point3 C;
     double Radius;
-    material* Mtl;
+    std::shared_ptr<material> Mtl;
 };
 
 class triangle : public shape
 {
 public:
-    triangle( const point3& p0, const point3& p1, const point3& p2, material* mtl ) : p0(p0), p1(p1), p2(p2), Mtl(mtl) {}
+    triangle( const point3& p0, const point3& p1, const point3& p2, std::shared_ptr<material> mtl ) : p0(p0), p1(p1), p2(p2), Mtl(mtl) {}
     bool Hits( const ray& R, hit_info& Info ) const override;
 private:
     point3 p0, p1, p2;
-    material* Mtl;
+    std::shared_ptr<material> Mtl;
 };
 
 class model : public shape
 {
 public:
-    model( const std::string& fn, material* mtl );
+    model( const std::string& fn, std::shared_ptr<material> mtl );
     bool Hits( const ray& R, hit_info& Info ) const override;
 private:
     std::vector<std::shared_ptr<triangle>> Triangles;
-    material* Mtl;
+    std::shared_ptr<material> Mtl;
 };

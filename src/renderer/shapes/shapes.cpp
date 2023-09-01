@@ -53,7 +53,7 @@ bool triangle::Hits( const ray& R, hit_info& Info ) const
     return false;
 }
 
-model::model( const std::string& fn, material* mtl ) : Mtl(mtl)
+model::model( const std::string& fn, std::shared_ptr<material> mtl ) : Mtl(mtl)
 {
     FILE* f = fopen(fn.c_str(), "r");
     if (f == nullptr)

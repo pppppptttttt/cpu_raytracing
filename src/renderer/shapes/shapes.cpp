@@ -6,12 +6,12 @@ bool sphere::Hits( const ray& R, hit_info& Info ) const
 {
     vec3 oc = R.Origin - C;
     double a = R.Dir.length2();
-    double b = 2 * dot(oc, R.Dir);
+    double hb = dot(oc, R.Dir);
     double c = oc.length2() - Radius * Radius;
-    double discr = b * b - 4 * a * c;
+    double discr = hb * hb - a * c;
     if (discr >= 0)
     {
-        Info.t = (-b - sqrt(discr)) / (2 * a);
+        Info.t = (-hb - sqrt(discr)) / a;
         Info.p = R.at(Info.t);
         Info.mtl = Mtl;
         vec3 n = mth::unit_vector(Info.p - C);

@@ -34,3 +34,21 @@ private:
     color3 Albedo;
     double Fuzz;
 };
+
+class dielectric : public material
+{
+public:
+    dielectric( double ir ) : ior(ir) {}
+
+    bool Scatter( const ray& R, const hit_info& Info,
+                  color3& Attenuation, ray& Scattered ) const override;
+private:
+    static inline vec3 refract( const vec3& uv, const vec3& n, double k )
+    {
+        double cos_theta = std::clamp(dot(-uv, n), -1.0, 1.0);
+        vec3 a = k * (uv + cos_theta * n);
+        vec3 b = -sqrt(fabs(1.0 - a.length2())) * n;
+        return a + b;
+    }
+    double ior;
+};

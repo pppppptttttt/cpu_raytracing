@@ -50,5 +50,10 @@ private:
         vec3 b = -sqrt(fabs(1.0 - a.length2())) * n;
         return a + b;
     }
+    static inline double reflectance( double co, double idx )
+    {
+        double r0 = ((1 - idx) / (1 + idx)) * ((1 - idx) / (1 + idx));
+        return r0 + (1 - r0) * pow(1 - co, 5);
+    }
     double ior;
 };

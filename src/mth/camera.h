@@ -76,7 +76,8 @@ namespace mth
             return *this;
         }
 
-       std::vector<vec2<Type>> jitter_matrix;
+private:
+        std::vector<vec2<Type>> jitter_matrix;
 
         uint32_t Ws, Hs;
         Type Wp, Hp, FocalLength;

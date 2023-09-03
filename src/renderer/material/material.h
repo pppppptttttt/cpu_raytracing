@@ -38,7 +38,7 @@ private:
 class dielectric : public material
 {
 public:
-    dielectric( double ir ) : ior(ir) {}
+    dielectric( const color3& a, double ir ) : Albedo(a), ior(ir) {}
 
     bool Scatter( const ray& R, const hit_info& Info,
                   color3& Attenuation, ray& Scattered ) const override;
@@ -55,5 +55,6 @@ private:
         double r0 = ((1 - idx) / (1 + idx)) * ((1 - idx) / (1 + idx));
         return r0 + (1 - r0) * pow(1 - co, 5);
     }
+    color3 Albedo;
     double ior;
 };

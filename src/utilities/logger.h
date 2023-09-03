@@ -73,6 +73,8 @@ private:
                 f.open(LoggerConfigInstance().FilePath, std::ios::app);
             if (f)
                 f << Header << msg << std::endl;
+            else
+                std::clog << "[ERROR]Can't open " << LoggerConfigInstance().FilePath << " log file" << std::endl;
         }
     }
 

@@ -5,10 +5,10 @@ int main()
     scene Scene;
     const uint32_t scene_no = 2;
 
-    renderer Rnd(800, 600);
+    renderer Rnd(1920, 1080);
     Rnd.Init(core_type::SDL);
-    Rnd.Cam.Set({0, 0, 4}, {0, 0, -1}, 40.0);
-    Rnd.SamplesPerPixel = 20;
+    Rnd.Cam.Set({-2, 0, 4}, {0, 0, -1}, 20.0);
+    Rnd.SamplesPerPixel = 1;
     Rnd.MaxDepth = 50;
 
     switch(scene_no)
@@ -41,7 +41,7 @@ int main()
     case 2:
         {
             auto ground = std::make_shared<lambertian>(vec3(0.2, 0.5, 0.5));
-            auto left = std::make_shared<dielectric>(1.5);
+            auto left = std::make_shared<dielectric>(vec3(1.0, 0.4, 1.0), 1.5);
             auto center = std::make_shared<lambertian>(vec3(0.8, 0.8, 0.8));
             auto right = std::make_shared<metal>(vec3(0, 0, 0.8), 0.1);
             Scene << std::make_shared<sphere>(point3(0, 0, -1), 0.5, center)
@@ -53,7 +53,7 @@ int main()
     }
 
     auto Frame = Rnd.RenderFrame(Scene);
-    Frame->SavePPM("teapot.ppm");
+    Frame->SavePPM("glass.ppm");
     Rnd.MainLoop();
     return 0;
 }

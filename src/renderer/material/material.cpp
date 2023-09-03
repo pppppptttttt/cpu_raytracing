@@ -23,7 +23,7 @@ bool metal::Scatter( const ray& R, const hit_info& Info,
 bool dielectric::Scatter( const ray& R, const hit_info& Info,
                           color3& Attenuation, ray& Scattered ) const
 {
-    Attenuation = color3(1.0);
+    Attenuation = Albedo;
     double ratio = Info.front_face ? (1.0 / ior) : ior;
     vec3 udir = mth::unit_vector(R.Dir);
     double co = std::clamp(dot(-udir, Info.n), -1.0, 1.0);

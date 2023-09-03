@@ -22,6 +22,8 @@ void renderer::Init( core_type T )
     }
     RenderCore->Init(WIDTH, HEIGHT);
     LOG(Severity::INFO) << "Render initialized";
+
+    Cam.SetupSamplesMatrix(SamplesPerPixel);
 }
 
 renderer::~renderer()
@@ -97,10 +99,16 @@ std::shared_ptr<image> renderer::RenderFrame( const scene& Scene )
                     for (uint32_t x = 0; x < WIDTH; x++)
                     {
                         color3 c(0);
-                        for (uint32_t _ = 0; _ < SamplesPerPixel; _++)
+                        if (SamplesPerPixel > 1)
+                            for (uint32_t s = 0; s < SamplesPerPixel; s++)
+                            {
+                                ray r = Cam.GetSampledRay(x, y, s);
+                                c += Scene.Shade(r, MaxDepth);
+                            }
+                        else
                         {
-                            ray r = Cam.GetThresholdedRay(x, y);
-                            c += Scene.Shade(r, MaxDepth);
+                            ray r = Cam.GetRay(x, y);
+                            c = Scene.Shade(r, MaxDepth);
                         }
                         c /= static_cast<double>(SamplesPerPixel);
                         Frame->PutPixel(x, y, fixedc(c));

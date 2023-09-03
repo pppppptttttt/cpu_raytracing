@@ -45,10 +45,39 @@ namespace mth
         ray<Type> GetThresholdedRay( uint32_t x, uint32_t y ) const
         {
             auto pixel_dev_square = ViewportDU * (-0.5 + Rnd01()) + ViewportDV * (-0.5 + Rnd01());
-            auto pixel_center = ViewportOrigin + (static_cast<double>(x) * ViewportDU) + (static_cast<double>(y) * ViewportDV);
+            auto pixel_center = ViewportOrigin + (static_cast<Type>(x) * ViewportDU) + (static_cast<Type>(y) * ViewportDV);
             return ray<Type>(Loc, pixel_center + pixel_dev_square - Loc);
         }
-    private:
+
+        ray<Type> GetSampledRay( uint32_t x, uint32_t y, uint32_t sample_no ) const
+        {
+            auto pixel_center = ViewportOrigin + static_cast<Type>(x) * ViewportDU + static_cast<Type>(y) * ViewportDV;
+            auto pixel_dev = ViewportDU * jitter_matrix[sample_no].x + ViewportDV * jitter_matrix[sample_no].y;
+            return ray<Type>(Loc, pixel_center + pixel_dev - Loc);
+        }
+
+        ray<Type> GetRay( uint32_t x, uint32_t y ) const
+        {
+            auto pixel_center = ViewportOrigin + static_cast<Type>(x) * ViewportDU + static_cast<Type>(y) * ViewportDV;
+            return ray<Type>(Loc, pixel_center - Loc);
+        }
+
+        camera& SetupSamplesMatrix( uint32_t SamplesPerPixel )
+        {
+            Type side = ceil(std::sqrt(SamplesPerPixel));
+            jitter_matrix.resize(side * side);
+            for (uint32_t y = 0; y < side; y++)
+                for (uint32_t x = 0; x < side; x++)
+                    jitter_matrix[y * side + x] =
+                    {
+                        x / side - 0.5 + 1 / static_cast<Type>(SamplesPerPixel),
+                        y / side - 0.5 + 1 / static_cast<Type>(SamplesPerPixel)
+                    };
+            return *this;
+        }
+
+       std::vector<vec2<Type>> jitter_matrix;
+
         uint32_t Ws, Hs;
         Type Wp, Hp, FocalLength;
         const Type ProjSize = 2;

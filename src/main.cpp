@@ -6,10 +6,10 @@ int main()
     const uint32_t scene_no = 2;
 
     renderer Rnd(1920, 1080);
-    Rnd.Init(core_type::SDL);
     Rnd.Cam.Set({-2, 0, 4}, {0, 0, -1}, 20.0);
-    Rnd.SamplesPerPixel = 1;
+    Rnd.SamplesPerPixel = 256;
     Rnd.MaxDepth = 50;
+    Rnd.Init(core_type::SDL);
 
     switch(scene_no)
     {
@@ -25,6 +25,7 @@ int main()
                   << std::make_shared<sphere>(point3(1, 0, -1), 0.5, right);
         }
         break;
+
     case 1:
         {
             Rnd.Cam.Set(point3(0.2, 0.35, 1) * 4, {0, 0.35, 0}, 60);
@@ -38,6 +39,7 @@ int main()
                   << std::make_shared<sphere>(point3(1, 0.5, -1), 0.7, right);
         }
         break;
+
     case 2:
         {
             auto ground = std::make_shared<lambertian>(vec3(0.2, 0.5, 0.5));
@@ -50,10 +52,19 @@ int main()
                   << std::make_shared<sphere>(point3(1, 0, -1), 0.5, right);
         }
         break;
+
+    case 3:
+        {
+            Rnd.Cam.Set({0}, {0, 0, -1}, 90.0);
+            auto mtl = std::make_shared<lambertian>(color3(0.7, 0, 0.7));
+            Scene << std::make_shared<sphere>(point3(0, 0, -1), 0.5, mtl);
+        }
+        break;
+
     }
 
     auto Frame = Rnd.RenderFrame(Scene);
-    Frame->SavePPM("glass.ppm");
+    Frame->SavePPM("no aa.ppm");
     Rnd.MainLoop();
     return 0;
 }

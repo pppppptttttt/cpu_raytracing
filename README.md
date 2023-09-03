@@ -1,7 +1,7 @@
 # cpu_raytracing
 
 ## Features
-- Antialiasing
+- Supersampling
 - Multithreading
 - Loading models from .obj file
 - Rendering image to .ppm and/or displaying it on screen
@@ -20,7 +20,7 @@ Guess you will need to install sdl2 and X11 libs; or just edit some code about c
 ![teapot](https://github.com/pppppptttttt/cpu_raytracing/assets/140364764/20bb9d7e-51a8-4133-8be9-8059594b071d)
 
 ## TODO
- - Change AA to something faster(like adaptive supersampling)
- - Textures from images and solid textures(noise etc.)
- - Physically based lights(objects that emits light on scene)
- - Fix models ligthing, last frame looks strange
+ - [x] Change AA to something faster(like adaptive supersampling)
+ - [ ] Textures from images and solid textures(noise etc.)
+ - [ ] Physically based lights(objects that emits light on scene)
+ - [ ] Fix models ligthing, last frame looks strange

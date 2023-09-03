@@ -30,13 +30,6 @@ renderer::~renderer()
     RenderCore->Close();
 }
 
-renderer& renderer::AddShp( std::shared_ptr<shape> Shp )
-{
-    Scene.push_back(Shp);
-    LOG(Severity::DEBUG) << "Shape #" << Scene.size() << " added to scene";
-    return *this;
-}
-
 bool scene::HasIntersection( const ray& R, hit_info& Info ) const
 {
     bool hits = false;
@@ -69,7 +62,7 @@ color3 scene::Shade( const ray& R, uint32_t depth ) const
     return color3(0.3, 0.47, 0.8);
 }
 
-std::shared_ptr<image> renderer::RenderFrame()
+std::shared_ptr<image> renderer::RenderFrame( const scene& Scene )
 {
     constexpr auto fixedc =
         []( const color3& c ) -> mth::vec3<u_char>
@@ -83,13 +76,13 @@ std::shared_ptr<image> renderer::RenderFrame()
 
     auto Frame = std::make_shared<image>(WIDTH, HEIGHT);
 
-    uint32_t progress_bar_w = 50;
+    uint32_t progress_bar_w = 70;
     std::cout << "Rendering frame..." << std::endl;
     auto start = std::chrono::high_resolution_clock::now();
 
 #define MT
 #ifdef MT
-    const uint32_t cores_n = std::thread::hardware_concurrency()-4;
+    const uint32_t cores_n = std::thread::hardware_concurrency();
 #else
     const uint32_t cores_n = 1;
 #endif
@@ -116,7 +109,7 @@ std::shared_ptr<image> renderer::RenderFrame()
                     }
             });
 
-    while (p < WIDTH * HEIGHT)
+    while (p <= WIDTH * HEIGHT)
     {
         std::cout << "[";
         for (uint32_t _ = 0; _ < progress_bar_w; _++)
@@ -124,6 +117,8 @@ std::shared_ptr<image> renderer::RenderFrame()
             else std::cout << " ";
         std::cout << "]" << ceil(static_cast<double>(p) / WIDTH / HEIGHT * 100.0) << "%\r";
         std::cout.flush();
+        if (p == WIDTH * HEIGHT)
+            break;
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
     for (uint32_t i = 0; i < cores_n; i++)

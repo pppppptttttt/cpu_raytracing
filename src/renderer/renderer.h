@@ -7,6 +7,11 @@ class scene : public std::vector<std::shared_ptr<shape>>
 {
 public:
     color3 Shade( const ray& R, uint32_t depth ) const;
+    scene& operator<<( std::shared_ptr<shape> shp )
+    {
+        push_back(shp);
+        return *this;
+    }
 private:
     bool HasIntersection( const ray& R, hit_info& Info ) const;
 };
@@ -41,9 +46,7 @@ class renderer
 public:
     renderer( uint32_t W = 1000, uint32_t H = 800 ) : Cam(W, H), WIDTH(W), HEIGHT(H) {}
     void Init( core_type T = core_type::Default );
-    std::shared_ptr<image> RenderFrame();
-    renderer& AddShp( std::shared_ptr<shape> Shp );
-    inline renderer& operator<<( std::shared_ptr<shape> Shp ) { AddShp(Shp); return *this; }
+    std::shared_ptr<image> RenderFrame( const scene& Scene );
     void MainLoop();
     ~renderer();
 
@@ -53,5 +56,4 @@ public:
 private:
     std::unique_ptr<core> RenderCore;
     const uint32_t WIDTH, HEIGHT;
-    scene Scene;
 };

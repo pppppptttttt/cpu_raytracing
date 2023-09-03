@@ -3,6 +3,7 @@
 ## Features
 - Supersampling
 - Multithreading
+- Dielectric materials
 - Loading models from .obj file
 - Rendering image to .ppm and/or displaying it on screen
 
